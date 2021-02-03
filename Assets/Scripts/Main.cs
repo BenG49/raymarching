@@ -69,9 +69,9 @@ public class Main : MonoBehaviour
 
     void Update()
     {
-        // if (!THREE_DIM)
-        //     main2.March(0.01f, 10f, (float)angle, true);
-        // else
-        //     main3.March(0.01f, 10f, new Vector2(angle, angle2), true);
+        if (!THREE_DIM)
+            main2.March(0.01f, 10f, (float)angle, true);
+        else
+            main3.March(0.01f, 10f, new Vector2(angle, angle2), true);
     }
 }
