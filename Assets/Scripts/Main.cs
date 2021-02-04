@@ -20,7 +20,7 @@ public class Main : MonoBehaviour
         get {return m_angle2; }
         set {m_angle2 = value; }
     }
-    [Range(-90, 90)]
+    [Range(0, 360)]
     public int m_angle2;
 
     private RayMarch2D main2;
@@ -61,6 +61,12 @@ public class Main : MonoBehaviour
                         new Vector3(0, 2, 3),
                         new Vector3(2, 0, 0),
                         RayMarch3D.ShapeEnv.Scene
+                    ),
+                    new RayMarch3D.Shape(
+                        RayMarch3D.ShapeType.Cube,
+                        new Vector3(0, 0, 0),
+                        new Vector3(1, 1, 1),
+                        RayMarch3D.ShapeEnv.Scene
                     )
                 }
             );
@@ -72,6 +78,6 @@ public class Main : MonoBehaviour
         if (!THREE_DIM)
             main2.March(0.01f, 10f, (float)angle, true);
         else
-            main3.March(0.01f, 10f, new Vector2(angle, angle2), true);
+            main3.March(0.01f, 10f, new Vector3(angle, angle2, 0), true);
     }
 }

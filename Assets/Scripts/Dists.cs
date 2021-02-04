@@ -88,3 +88,46 @@ public static class Dist2D
         );
     }
 }
+
+public static class Rotation
+{
+    public static Vector3 Rot3D(Vector3 angle, Vector3 initial) {
+        Vector3 r = angle * (Mathf.PI/180);
+
+        float[] sin = new float[] {Mathf.Sin(r.x), Mathf.Sin(r.y), Mathf.Sin(r.z)};
+        float[] cos = new float[] {Mathf.Cos(r.x), Mathf.Cos(r.y), Mathf.Cos(r.z)};
+
+        Matrix yaw = new Matrix(new float[,]{
+            {cos[0], -sin[0], 0},
+            {sin[0], cos[0],  0},
+            {0,      0,       1}
+        });
+        Matrix pitch = new Matrix(new float[,]{
+            {cos[1],  0, sin[1]},
+            {0,       1, 0},
+            {-sin[1], 0, cos[1]}
+        });
+        Matrix roll = new Matrix(new float[,]{
+            {1, 0,      0},
+            {0, cos[2], -sin[2]},
+            {0, sin[2], cos[2]}
+        });
+
+        Matrix final = yaw*pitch*roll*initial;
+        
+        return new Vector3(final[0,0], final[0,1], final[0,2]);
+    }
+
+    public static Vector2 Rot2D(float angle, Vector2 initial) {
+        float rad = angle * (Mathf.PI/180);
+
+        Matrix rot = new Matrix(new float[,]{
+            {Mathf.Cos(rad), -Mathf.Sin(rad)},
+            {Mathf.Sin(rad), Mathf.Cos(rad)}
+        });
+
+        Matrix final = rot*initial;
+
+        return new Vector2(final[0,0], final[0,1]);
+    }
+}

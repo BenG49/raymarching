@@ -110,8 +110,8 @@ public class RayMarch2D : MonoBehaviour
             
             /* sin(angle)*hypotenuse = opposite [y]
                cos(angle)*hypotenuse = adjacent [x] */
-            currentPoint.x += (float)Mathf.Cos(radians)*currentRadius;
-            currentPoint.y += (float)Mathf.Sin(radians)*currentRadius;
+            currentPoint.x += Mathf.Cos(radians)*currentRadius;
+            currentPoint.y += Mathf.Sin(radians)*currentRadius;
         }
 
         if (currentRadius <= min)
@@ -246,15 +246,8 @@ public class RayMarch3D : MonoBehaviour
     /*
         NOTE: returns (0, 0, 0) if there are no obstructions
     */
-    public Vector2 March(float min, float max, Vector2 angle, bool draw) {
-        // converting to radians
-        angle.x = angle.x % 360;
-        if (angle.y > 90)
-            angle.y = angle.y % 90;
-        else if (angle.y < -90)
-            angle.y = angle.y % -90;
-
-        Vector2 radians = new Vector2(Mathf.PI / 180, Mathf.PI / 180) * angle;
+    public Vector2 March(float min, float max, Vector3 angle, bool draw) {
+        Vector3 radians = angle*(Mathf.PI/180);
         Vector3 currentPoint = cam;
         // this is probably not neccessary and unoptimized, starts radius in avg of min and max
         float currentRadius = (max + min)/2;
@@ -266,14 +259,7 @@ public class RayMarch3D : MonoBehaviour
         // if the circle exactly reaches shape
         while (currentRadius > min && currentRadius < max) {
             currentRadius = MarchStep(currentPoint, draw, min, max);
-            
-            /* cos(angle)*hypotenuse = adjacent [x]
-               sin(angle)*hypotenuse = opposite [y]
-               tan(angle)*adjacent   = opposite [z] */
-            // TODO: check if casts are neccessary for Mathf
-            currentPoint.x += (float)Mathf.Cos(radians.x)*currentRadius;
-            currentPoint.y += (float)Mathf.Tan(radians.y)*currentRadius;
-            currentPoint.z += (float)Mathf.Sin(radians.x)*currentRadius;
+            currentPoint += Rotation.Rot3D(angle, new Vector3(currentRadius, 0, 0));
         }
 
         if (currentRadius <= min)
