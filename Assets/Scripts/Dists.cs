@@ -113,9 +113,9 @@ public static class Rotation
             {0, sin[2], cos[2]}
         });
 
-        Matrix final = yaw*pitch*roll*initial;
+        Matrix product = yaw*(pitch*(roll*initial));
         
-        return new Vector3(final[0,0], final[0,1], final[0,2]);
+        return new Vector3(product[0,0], product[0,1], product[0,2]);
     }
 
     public static Vector2 Rot2D(float angle, Vector2 initial) {
@@ -126,8 +126,8 @@ public static class Rotation
             {Mathf.Sin(rad), Mathf.Cos(rad)}
         });
 
-        Matrix final = rot*initial;
+        Matrix product = rot*initial;
 
-        return new Vector2(final[0,0], final[0,1]);
+        return new Vector2(product[0,0], product[0,1]);
     }
 }
